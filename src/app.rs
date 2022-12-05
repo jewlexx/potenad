@@ -23,7 +23,7 @@ impl EditorState {
 
         let bytes = std::fs::read(config_path)?;
 
-        toml::from_slice(&bytes)?
+        Ok(toml::from_slice(&bytes)?)
     }
 
     pub fn save(&self) -> std::io::Result<()> {
