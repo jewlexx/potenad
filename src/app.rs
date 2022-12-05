@@ -6,7 +6,7 @@ use std::{
 
 #[derive(Debug, serde::Deserialize, serde::Serialize)]
 #[serde(default)]
-pub struct EditorApp {
+pub struct EditorState {
     path: Option<PathBuf>,
 
     // Do not include entire file contents in state saving
@@ -17,7 +17,20 @@ pub struct EditorApp {
     channel: (Sender<PathBuf>, Receiver<PathBuf>),
 }
 
-impl Default for EditorApp {
+impl EditorState {
+    pub fn save(&self) -> std::io::Result<()> {
+        let config_dir = dirs::config_dir().unwrap().join("potenad");
+
+        Ok(())
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct EditorApp {
+    state: EditorState,
+}
+
+impl Default for EditorState {
     fn default() -> Self {
         Self {
             path: Default::default(),
