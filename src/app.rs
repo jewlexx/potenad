@@ -18,7 +18,7 @@ pub struct EditorState {
 }
 
 impl EditorState {
-    pub fn open() -> std::io::Result<Self> {
+    pub fn load() -> std::io::Result<Self> {
         let config_path = Self::config_path();
 
         let bytes = std::fs::read(config_path)?;
@@ -62,11 +62,9 @@ impl Default for EditorState {
 }
 
 impl EditorApp {
-    pub fn new(ctx: &eframe::CreationContext<'_>) -> Self {
-        if let Some(storage) = ctx.storage {
-            eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default()
-        } else {
-            Self::default()
+    pub fn new() -> Self {
+        Self {
+            state: EditorState::load().unwrap_or_default(),
         }
     }
 
