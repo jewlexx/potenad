@@ -19,7 +19,10 @@ pub struct EditorState {
 
 impl EditorState {
     pub fn save(&self) -> std::io::Result<()> {
-        let config_dir = dirs::config_dir().unwrap().join("potenad");
+        let config_dir = dirs::config_dir()
+            .unwrap()
+            .join("potenad")
+            .join("config.toml");
 
         Ok(())
     }
