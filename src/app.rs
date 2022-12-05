@@ -74,24 +74,19 @@ impl EditorApp {
         let path = path.as_ref();
         let mut file = File::open(path)?;
 
-        file.read_to_string(&mut self.contents)?;
+        file.read_to_string(&mut self.state.contents)?;
 
-        self.path = Some(path.to_path_buf());
+        self.state.path = Some(path.to_path_buf());
 
         Ok(())
     }
+
+    pub fn save_state(&self) {
+        self.state.save()
+    }
 }
 
-impl eframe::App for EditorApp {
-    fn save(&mut self, storage: &mut dyn eframe::Storage) {
-        eframe::set_value(storage, eframe::APP_KEY, self)
-    }
-
-    // TODO: Add config to be able to change this and other options
-    fn auto_save_interval(&self) -> Duration {
-        Duration::from_secs(60)
-    }
-
+impl iced::Application for EditorApp {
     fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         debug!("Updating...");
 
