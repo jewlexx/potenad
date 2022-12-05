@@ -42,7 +42,7 @@ impl EditorState {
         dirs::config_dir()
             .unwrap()
             .join("potenad")
-            .join("config.toml");
+            .join("config.toml")
     }
 }
 
