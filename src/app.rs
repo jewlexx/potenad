@@ -29,7 +29,7 @@ impl EditorState {
     pub fn save(&self) -> std::io::Result<()> {
         let config_path = Self::config_path();
 
-        let bytes = toml::to_vec(self)?;
+        let bytes = toml::to_vec(self).unwrap();
 
         std::fs::create_dir_all(&config_path)?;
 
