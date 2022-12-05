@@ -24,6 +24,12 @@ impl EditorState {
             .join("potenad")
             .join("config.toml");
 
+        let bytes = toml::to_vec(self)?;
+
+        std::fs::create_dir_all(&config_dir)?;
+
+        std::fs::write(&config_dir, &bytes)?;
+
         Ok(())
     }
 }
