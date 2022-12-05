@@ -18,19 +18,31 @@ pub struct EditorState {
 }
 
 impl EditorState {
+    pub fn open() -> std::io::Result<Self> {
+        let config_path = Self::config_path();
+
+        let bytes = std::fs::read(config_path)?;
+
+        toml::from_slice(&bytes)?
+    }
+
     pub fn save(&self) -> std::io::Result<()> {
-        let config_dir = dirs::config_dir()
-            .unwrap()
-            .join("potenad")
-            .join("config.toml");
+        let config_path = Self::config_path();
 
         let bytes = toml::to_vec(self)?;
 
-        std::fs::create_dir_all(&config_dir)?;
+        std::fs::create_dir_all(&config_path)?;
 
-        std::fs::write(&config_dir, &bytes)?;
+        std::fs::write(&config_path, &bytes)?;
 
         Ok(())
+    }
+
+    fn config_path() -> PathBuf {
+        dirs::config_dir()
+            .unwrap()
+            .join("potenad")
+            .join("config.toml");
     }
 }
 
